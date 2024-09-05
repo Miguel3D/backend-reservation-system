@@ -18,9 +18,9 @@ export class ReservasService {
       create: cliente,
     });
 
-    return this.prisma.reserva.create({
+    return await this.prisma.reserva.create({
       data: {
-        fecha,
+        fecha: new Date(fecha).toISOString(),
         clienteId: clienteCreated.id,
         servicioId,
       },
