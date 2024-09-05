@@ -5,13 +5,21 @@ import { PrismaService } from '../prisma/prisma.service';
 export class ReservasService {
   constructor(private prisma: PrismaService) {}
 
-  async crearReserva(data: {
-    fecha: Date;
-    clienteId: number;
-    servicioId: number;
-  }) {
+  async createReserva(data) {
+    const { fecha, cliente, servicioId } = data;
+
+    const clienteCreated = await this.prisma.cliente.upsert({
+      where: { correo: cliente.correo },
+      update: cliente,
+      create: cliente,
+    });
+
     return this.prisma.reserva.create({
-      data,
+      data: {
+        fecha,
+        clienteId: clienteCreated.id,
+        servicioId,
+      },
     });
   }
 

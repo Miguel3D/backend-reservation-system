@@ -12,14 +12,19 @@ import { ReservasService } from './reservas.service';
 
 @Controller('reservas')
 export class ReservasController {
-  constructor(private reservasService: ReservasService) {}
+  constructor(private readonly reservasService: ReservasService) {}
 
   @Post()
-  async crearReserva(
-    @Body() body: { fecha: Date; clienteId: number; servicioId: number },
-  ) {
-    return this.reservasService.crearReserva(body);
+  async createReserva(@Body() body) {
+    return this.reservasService.createReserva(body);
   }
+
+  // @Post()
+  // async crearReserva(
+  //   @Body() body: { fecha: Date; clienteId: number; servicioId: number },
+  // ) {
+  //   return this.reservasService.crearReserva(body);
+  // }
 
   @Put(':id')
   async modificarReserva(
