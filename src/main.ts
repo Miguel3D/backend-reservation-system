@@ -5,18 +5,21 @@ import { CorsOptions } from '@nestjs/common/interfaces/external/cors-options.int
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  // Configuración detallada de CORS
-  const corsOptions: CorsOptions = {
-    origin: [
-      'http://localhost:8080/',
-      'https://frontend-reservation-system.vercel.app/',
-    ], // Aquí pones el dominio del frontend
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
-    credentials: true, // Permitir cookies si es necesario
-    allowedHeaders: 'Content-Type, Accept, Authorization', // Agrega los headers permitidos
-  };
+  // const corsOptions: CorsOptions = {
+  //   origin: [
+  //     'http://localhost:8080/',
+  //     'https://frontend-reservation-system.vercel.app/',
+  //   ],
+  //   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+  //   credentials: true,
+  //   allowedHeaders: 'Content-Type, Accept, Authorization',
+  // };
 
-  app.enableCors(corsOptions);
+  app.enableCors({
+    allowedHeaders: '*',
+    origin: '*',
+    credentials: true,
+  });
 
   await app.listen(3000);
 }
