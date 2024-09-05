@@ -7,12 +7,25 @@ import {
   Body,
   Param,
   Query,
+  // HttpStatus,
+  // Res,
 } from '@nestjs/common';
+// import { Response } from 'express';
 import { ReservasService } from './reservas.service';
 
 @Controller('reservas')
 export class ReservasController {
   constructor(private readonly reservasService: ReservasService) {}
+
+  // @Get('/')
+  // getHome(@Res() res: Response) {
+  //   res.status(HttpStatus.OK).json({
+  //     data: null,
+  //     message: 'API is running successfully! 🚀🍺🍻',
+  //     success: true,
+  //     statusCode: HttpStatus.OK,
+  //   });
+  // }
 
   @Post()
   async crearReserva(
