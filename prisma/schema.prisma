@@ -12,9 +12,10 @@ model Cliente {
   nombre    String
   apellido  String
   telefono  String
-  correo    String
+  correo    String    @unique
   reservas  Reserva[]
 }
+
 
 model Servicio {
   id        Int       @id @default(autoincrement())

@@ -8,9 +8,14 @@ export class ReservasService {
   async createReserva(data) {
     const { fecha, cliente, servicioId } = data;
 
+    // Asegúrate de que el campo 'apellido' esté correctamente mapeado
     const clienteCreated = await this.prisma.cliente.upsert({
       where: { correo: cliente.correo },
-      update: cliente,
+      update: {
+        nombre: cliente.nombre,
+        apellido: cliente.apellido,
+        telefono: cliente.telefono,
+      },
       create: cliente,
     });
 
