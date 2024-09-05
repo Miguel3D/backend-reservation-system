@@ -5,10 +5,9 @@ import { PrismaService } from '../prisma/prisma.service';
 export class ReservasService {
   constructor(private prisma: PrismaService) {}
 
-  async createReserva(data) {
+  async crearReserva(data) {
     const { fecha, cliente, servicioId } = data;
 
-    // Asegúrate de que el campo 'apellido' esté correctamente mapeado
     const clienteCreated = await this.prisma.cliente.upsert({
       where: { correo: cliente.correo },
       update: {

@@ -15,16 +15,21 @@ export class ReservasController {
   constructor(private readonly reservasService: ReservasService) {}
 
   @Post()
-  async createReserva(@Body() body) {
-    return this.reservasService.createReserva(body);
+  async crearReserva(
+    @Body()
+    body: {
+      fecha: Date;
+      cliente: {
+        nombre: string;
+        apellido: string;
+        telefono: string;
+        correo: string;
+      };
+      servicioId: number;
+    },
+  ) {
+    return this.reservasService.crearReserva(body);
   }
-
-  // @Post()
-  // async crearReserva(
-  //   @Body() body: { fecha: Date; clienteId: number; servicioId: number },
-  // ) {
-  //   return this.reservasService.crearReserva(body);
-  // }
 
   @Put(':id')
   async modificarReserva(
