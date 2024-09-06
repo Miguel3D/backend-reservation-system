@@ -6,6 +6,7 @@ import {
   Param,
   Put,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { ClientsService } from './clients.service';
 import { CreateClientDto } from './dto/create-client.dto';
@@ -15,28 +16,34 @@ import { UpdateClientDto } from './dto/update-client.dto';
 export class ClientsController {
   constructor(private readonly clientsService: ClientsService) {}
 
-  @Post()
-  create(@Body() createClientDto: CreateClientDto) {
-    return this.clientsService.create(createClientDto);
-  }
-
   @Get()
-  findAll() {
-    return this.clientsService.findAll();
+  async findAll(
+    @Query('name') name?: string,
+    @Query('documentId') documentId?: string,
+  ) {
+    return this.clientsService.findAll({ name, documentId });
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  async findOne(@Param('id') id: string) {
     return this.clientsService.findOne(+id);
   }
 
+  @Post()
+  async create(@Body() createClientDto: CreateClientDto) {
+    return this.clientsService.create(createClientDto);
+  }
+
   @Put(':id')
-  update(@Param('id') id: string, @Body() updateClientDto: UpdateClientDto) {
+  async update(
+    @Param('id') id: string,
+    @Body() updateClientDto: UpdateClientDto,
+  ) {
     return this.clientsService.update(+id, updateClientDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  async remove(@Param('id') id: string) {
     return this.clientsService.remove(+id);
   }
 }

@@ -7,11 +7,14 @@ import { PrismaService } from './prisma/prisma.service';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     ReservationsModule,
     ClientsModule,
     ServicesModule,
   ],
   providers: [PrismaService],
+  exports: [PrismaService],
 })
 export class AppModule {}

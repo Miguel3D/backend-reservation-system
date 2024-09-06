@@ -1,19 +1,19 @@
-import { IsNotEmpty, IsString, IsEmail } from 'class-validator';
+import { IsNotEmpty, IsEmail, IsString } from 'class-validator';
 
 export class CreateClientDto {
-  @IsNotEmpty()
-  @IsString()
+  @IsNotEmpty({ message: 'First name is required' })
+  @IsString({ message: 'First name must be a string' })
   firstName: string;
 
-  @IsNotEmpty()
-  @IsString()
+  @IsNotEmpty({ message: 'Last name is required' })
+  @IsString({ message: 'Last name must be a string' })
   lastName: string;
 
-  @IsNotEmpty()
-  @IsString()
+  @IsNotEmpty({ message: 'Document ID is required' })
+  @IsString({ message: 'Document ID must be a string' })
   documentId: string;
 
-  @IsNotEmpty()
-  @IsEmail()
+  @IsNotEmpty({ message: 'Email is required' })
+  @IsEmail({}, { message: 'Email must be valid' })
   email: string;
 }

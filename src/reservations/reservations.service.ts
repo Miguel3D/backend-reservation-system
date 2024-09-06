@@ -1,43 +1,47 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateReservationDto } from './dto/create-reservation.dto';
 import { UpdateReservationDto } from './dto/update-reservation.dto';
 
 @Injectable()
 export class ReservationsService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) {}
 
-  async createReservation(data: CreateReservationDto) {
-    return this.prisma.reservation.create({
-      data: {
-        date: new Date(data.date), // Convertir el string a Date
-        client: { connect: { id: data.clientId } },
-        service: { connect: { id: data.serviceId } },
-      },
+  async findAll() {
+    return this.prisma.reservation.findMany({
+      include: { client: true, service: true }, // Adjust if needed
     });
   }
 
-  async updateReservation(id: number, data: UpdateReservationDto) {
+  async findOne(id: number) {
+    const reservation = await this.prisma.reservation.findUnique({
+      where: { id },
+      include: { client: true, service: true }, // Adjust if needed
+    });
+    if (!reservation) {
+      throw new NotFoundException(`Reservation with ID ${id} not found`);
+    }
+    return reservation;
+  }
+
+  async create(createReservationDto: CreateReservationDto) {
+    return this.prisma.reservation.create({
+      data: createReservationDto,
+    });
+  }
+
+  async update(id: number, updateReservationDto: UpdateReservationDto) {
+    const reservation = await this.findOne(id);
     return this.prisma.reservation.update({
       where: { id },
-      data: {
-        date: new Date(data.date), // Convertir el string a Date
-        client: { connect: { id: data.clientId } },
-        service: { connect: { id: data.serviceId } },
-      },
+      data: updateReservationDto,
     });
   }
 
-  async getReservations() {
-    return this.prisma.reservation.findMany({
-      include: {
-        client: true,
-        service: true,
-      },
+  async remove(id: number) {
+    await this.findOne(id);
+    return this.prisma.reservation.delete({
+      where: { id },
     });
-  }
-
-  async deleteReservation(id: number) {
-    return this.prisma.reservation.delete({ where: { id } });
   }
 }

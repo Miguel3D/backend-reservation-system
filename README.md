@@ -61,6 +61,12 @@ Este proyecto es el backend del Sistema de Reservas, desarrollado con [NestJS](h
 - **GET** `/reservations`: Obtiene todas las reservas con opciones de filtro.
 - **GET** `/reservations/:id`: Obtiene una reserva específica por ID.
 
+- **POST** `/clients`: Crea una nuevo usuario.
+- **PUT** `/clients/:id`: Actualiza un usuario existente.
+- **DELETE** `/clients/:id`: Elimina un usuario.
+- **GET** `/clients`: Obtiene todos los usuario con opciones de filtro.
+- **GET** `/clients/:id`: Obtiene un usuario específica por ID.
+
 ## Uso de Swagger
 
 Este proyecto utiliza Swagger para la documentación automática de la API. Una vez que el servidor esté en ejecución, puedes acceder a la documentación en `http://localhost:3000/api`.
