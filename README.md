@@ -81,4 +81,4 @@ Este proyecto utiliza Swagger para la documentación automática de la API. Una 
 Para cualquier pregunta o consulta:
 
 - **Nombre**: Miguel Angel Moreno Rivas
-- **Correo Electrónico**: [tu-email@example.com](mailto:miguel.amorenori@gmail.com)
+- **Correo Electrónico**: [miguel.amorenori@gmail.com](mailto:miguel.amorenori@gmail.com)
