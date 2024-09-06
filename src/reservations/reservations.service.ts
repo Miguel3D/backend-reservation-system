@@ -1,44 +1,43 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../prisma.service';
-import { Reservation } from '@prisma/client';
+import { PrismaService } from '../prisma/prisma.service';
+import { CreateReservationDto } from './dto/create-reservation.dto';
+import { UpdateReservationDto } from './dto/update-reservation.dto';
 
 @Injectable()
 export class ReservationsService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private prisma: PrismaService) {}
 
-  async createReservation(data: {
-    date: Date;
-    clientId: number;
-    serviceId: number;
-  }): Promise<Reservation> {
+  async createReservation(data: CreateReservationDto) {
     return this.prisma.reservation.create({
-      data,
+      data: {
+        date: new Date(data.date), // Convertir el string a Date
+        client: { connect: { id: data.clientId } },
+        service: { connect: { id: data.serviceId } },
+      },
     });
   }
 
-  async updateReservation(
-    id: number,
-    data: Partial<{ date: Date; clientId: number; serviceId: number }>,
-  ): Promise<Reservation> {
+  async updateReservation(id: number, data: UpdateReservationDto) {
     return this.prisma.reservation.update({
       where: { id },
-      data,
+      data: {
+        date: new Date(data.date), // Convertir el string a Date
+        client: { connect: { id: data.clientId } },
+        service: { connect: { id: data.serviceId } },
+      },
     });
   }
 
-  async cancelReservation(id: number): Promise<Reservation> {
-    return this.prisma.reservation.delete({
-      where: { id },
-    });
-  }
-
-  async getReservations(filters: {
-    date?: Date;
-    clientId?: number;
-    serviceId?: number;
-  }): Promise<Reservation[]> {
+  async getReservations() {
     return this.prisma.reservation.findMany({
-      where: filters,
+      include: {
+        client: true,
+        service: true,
+      },
     });
+  }
+
+  async deleteReservation(id: number) {
+    return this.prisma.reservation.delete({ where: { id } });
   }
 }
